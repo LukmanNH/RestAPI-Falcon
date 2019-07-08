@@ -2,27 +2,26 @@ from pymongo import MongoClient
 import pymongo
 import json
 import falcon
+# from .models import User
 
 client = pymongo.MongoClient("mongodb+srv://luckman004:hackerisart1@cluster0-oacif.mongodb.net/login?retryWrites=true&w=majority")
 db = client.login
 
 u = db.user
 
-class ObjRequestClass():
+class Login(object):
     def on_post(self , req, resp):
         data = json.loads(req.stream.read())
 
         username = data['username']
         password = data['password']
         for i in u.find():
-            print(i)
             if username in i['username'] and password in i['password']:
                 resp.body = json.dumps({
                     "code" : 200,
                     "messages" : "Berhasil Login",
                     "data" : {
-                        "username" : data["username"],
-                        "password" : ""
+                        "username" : data["username"]
                     }
                 })
                 resp.status = falcon.HTTP_200
@@ -33,10 +32,44 @@ class ObjRequestClass():
                 })
                 resp.status = falcon.HTTP_401
 
+class Register(object):
+    def on_post(self,req,resp):
+        data  = json.loads(req.stream.read())
 
+        username = data['username']
+        password = data['password']
 
-        
+        for i in u.find():
+            if username not in i['username'] is None:
+                u.insert({
+                    'username' : str(username),
+                    'password' : str(password),
+                })
+                resp.body = json.dumps({
+                            "code" : 201,
+                            "messages" : "Berhasil Register",
+                            "data" : {
+                                "username" : data["username"]
+                            }
+                })
+                resp.status = falcon.HTTP_201
+            else:
+                resp.body = json.dumps({
+                            "code" : 409,
+                            "massages" : "Gagal Register-- Username telah digunakan "
+                            })
+                resp.status = falcon.HTTP_409
+                
+                
+                
+                
+                
+            
+                
+
 
 api = falcon.API()
-api.add_route('/login', ObjRequestClass())
+api.add_route('/login', Login())
+api.add_route('/register', Register())
+
 
