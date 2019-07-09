@@ -32,7 +32,7 @@ class Login(object):
                 })
                 resp.status = falcon.HTTP_401
 
-class Register(object):
+class Register():
     def on_post(self,req,resp):
         data  = json.loads(req.stream.read())
 
@@ -40,33 +40,31 @@ class Register(object):
         password = data['password']
 
         for i in u.find():
-            if username not in i['username'] is None:
-                u.insert({
-                    'username' : str(username),
-                    'password' : str(password),
-                })
+            if username == i['username']:
                 resp.body = json.dumps({
-                            "code" : 201,
-                            "messages" : "Berhasil Register",
-                            "data" : {
-                                "username" : data["username"]
-                            }
-                })
-                resp.status = falcon.HTTP_201
-            else:
-                resp.body = json.dumps({
-                            "code" : 409,
-                            "massages" : "Gagal Register-- Username telah digunakan "
-                            })
+                    "code" : 409,
+                    "massages" : "Gagal Register-- Username telah digunakan "
+                    })
                 resp.status = falcon.HTTP_409
+                return 
                 
-                
-                
-                
+        u.insert({
+            'username' : str(username),
+            'password' : str(password),
+        })
+        resp.body = json.dumps({
+                    "code" : 201,
+                    "messages" : "Berhasil Register",
+                    "data" : {
+                        "username" : data["username"]
+                    }
+        })
+        resp.status = falcon.HTTP_201
+        return 
+
+        
                 
             
-                
-
 
 api = falcon.API()
 api.add_route('/login', Login())
