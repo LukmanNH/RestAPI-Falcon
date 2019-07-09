@@ -15,8 +15,9 @@ class Login(object):
 
         username = data['username']
         password = data['password']
+        
         for i in u.find():
-            if username in i['username'] and password in i['password']:
+            if username == i['username'] and password == i['password']:
                 resp.body = json.dumps({
                     "code" : 200,
                     "messages" : "Berhasil Login",
@@ -47,7 +48,6 @@ class Register():
                     })
                 resp.status = falcon.HTTP_409
                 return 
-                
         u.insert({
             'username' : str(username),
             'password' : str(password),
@@ -69,5 +69,6 @@ class Register():
 api = falcon.API()
 api.add_route('/login', Login())
 api.add_route('/register', Register())
+# api.add_route('forgot', )
 
 
