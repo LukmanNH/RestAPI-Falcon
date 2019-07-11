@@ -13,7 +13,6 @@ class Login(object):
 
         username = data['username']
         password = data['password']
-        
         for i in u.find():
             if username == i['username'] and password == i['password']:
                 resp.body = json.dumps({
@@ -84,6 +83,7 @@ class ResetPassword():
 
 class NewPassword():
     def on_post(self,req,resp):
+        
         data = json.loads(req.stream.read())
 
         username = data['username']
