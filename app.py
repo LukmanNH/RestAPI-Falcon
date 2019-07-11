@@ -68,7 +68,6 @@ class ResetPassword():
 
         username = data['username']
         email = data['email']
-    
         reset_password = u.find_one_and_update({'username' : username,'email':email},{'$set':{'password':''}})
         if reset_password != None:
             resp.body = json.dumps({
@@ -86,6 +85,7 @@ class ResetPassword():
 class NewPassword():
     def on_post(self,req,resp):
         data = json.loads(req.stream.read())
+
         username = data['username']
         email = data['email']
         password = data['password']
