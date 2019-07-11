@@ -8,6 +8,7 @@ db = client.login
 u = db.user
 
 class Login(object):
+    @classmethod
     def on_post(self , req, resp):
         data = json.loads(req.stream.read())
 
@@ -32,6 +33,7 @@ class Login(object):
                 resp.status = falcon.HTTP_401
 
 class Register():
+    @classmethod
     def on_post(self,req,resp):
         data  = json.loads(req.stream.read())
 
@@ -62,6 +64,7 @@ class Register():
         resp.status = falcon.HTTP_201
 
 class ResetPassword():
+    @classmethod
     def on_post(self,req,resp):
         data  = json.loads(req.stream.read())
 
@@ -82,8 +85,9 @@ class ResetPassword():
             resp.status = falcon.HTTP_404
 
 class NewPassword():
+    @classmethod
     def on_post(self,req,resp):
-        
+
         data = json.loads(req.stream.read())
 
         username = data['username']
