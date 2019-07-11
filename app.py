@@ -86,7 +86,6 @@ class ResetPassword():
 class NewPassword():
     def on_post(self,req,resp):
         data = json.loads(req.stream.read())
-        
         username = data['username']
         email = data['email']
         password = data['password']
