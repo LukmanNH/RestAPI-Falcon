@@ -83,11 +83,8 @@ class ResetPassword():
             })
             resp.status = falcon.HTTP_404
 
-
 class NewPassword():
-
     def on_post(self,req,resp):
-
         data = json.loads(req.stream.read())
         
         username = data['username']
@@ -113,5 +110,3 @@ api.add_route('/login', Login())
 api.add_route('/register', Register())
 api.add_route('/reset', ResetPassword())
 api.add_route('/new_pass' , NewPassword())
-
-
