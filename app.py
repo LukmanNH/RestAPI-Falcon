@@ -1,8 +1,6 @@
-from pymongo import MongoClient
 import pymongo
 import json
 import falcon
-# from .models import User
 
 client = pymongo.MongoClient("mongodb+srv://luckman004:hackerisart1@cluster0-oacif.mongodb.net/login?retryWrites=true&w=majority")
 db = client.login
@@ -17,7 +15,7 @@ class Login(object):
         password = data['password']
         
         for i in u.find():
-            if username == i['username'] and password == i['password']: 
+            if username == i['username'] and password == i['password']:
                 resp.body = json.dumps({
                     "code" : 200,
                     "messages" : "Berhasil Login",
@@ -27,7 +25,7 @@ class Login(object):
                     }
                 })
                 resp.status = falcon.HTTP_200
-            else:   
+            else:
                 resp.body = json.dumps({
                     "code" : 401,
                     "massages" : "Gagal Login-- username atau password salah"
@@ -49,7 +47,7 @@ class Register():
                     "massages" : "Gagal Register-- Username atau email telah digunakan "
                     })
                 resp.status = falcon.HTTP_409
-                return 
+                return
         u.insert({
             'email' : str(email),
             'username' : str(username),
@@ -88,7 +86,6 @@ class ResetPassword():
 
 class NewPassword():
     def on_post(self,req,resp):
-
         data = json.loads(req.stream.read())
         
         username = data['username']
@@ -101,6 +98,7 @@ class NewPassword():
                 "code" : 409,
                 "message" : 'gagal di perbarui'
             })
+            
             resp.status = falcon.HTTP_404
             
         else:
@@ -109,14 +107,6 @@ class NewPassword():
                 "message": 'Password berhasil di perbarui'
             })
             resp.status = falcon.HTTP_200
-            
-
-
-
-
-        
-                
-            
 
 api = falcon.API()
 api.add_route('/login', Login())
