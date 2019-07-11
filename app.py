@@ -85,7 +85,9 @@ class ResetPassword():
 
 
 class NewPassword():
+
     def on_post(self,req,resp):
+
         data = json.loads(req.stream.read())
         
         username = data['username']
@@ -98,9 +100,7 @@ class NewPassword():
                 "code" : 409,
                 "message" : 'gagal di perbarui'
             })
-            
             resp.status = falcon.HTTP_404
-            
         else:
             resp.body = json.dumps({
                 "code": 200,
