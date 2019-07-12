@@ -18,7 +18,7 @@ class Login(object):
             if username == i['username'] and password == i['password']:
                 resp.body = json.dumps({
                     "code" : 200,
-                    "messages" : "Berhasil Login",
+                    "messages" : "Login Success",
                     "data" : {
                         "username" : data["username"],
                         "email" : i['email']
@@ -80,7 +80,7 @@ class ResetPassword():
         else:
             resp.body = json.dumps({
                 "code" : 409,
-                "message" : 'Akun tidak terdaftar'
+                "message" : 'Gagal reset password --Sorry'
             })
             resp.status = falcon.HTTP_404
 
@@ -98,7 +98,7 @@ class NewPassword():
         if new_password is True:
             resp.body = json.dumps({
                 "code" : 409,
-                "message" : 'gagal di perbarui'
+                "message" : 'Gagal di perbarui'
             })
             resp.status = falcon.HTTP_404
         else:
