@@ -1,16 +1,21 @@
 import pymongo
 import json
 import falcon
+from falcon.http_status import HTTPStatus
+from falcon_cors import CORS
 
 client = pymongo.MongoClient("mongodb+srv://luckman004:hackerisart1@cluster0-oacif.mongodb.net/login?retryWrites=true&w=majority")
 db = client.login
+
+cors = CORS(allow_origins_list=['http://localhost:3000/'])
 
 u = db.user
 
 class Login(object):
     @classmethod
     def on_post(self , req, resp):
-        data = json.loads(req.stream.read())
+        data = json.loads(req.bounded_stream.read().decode('UTF-8'))
+        # data = json.loads(req.bounded_stream.read())
 
         username = data['username']
         password = data['password']
@@ -25,6 +30,7 @@ class Login(object):
                     }
                 })
                 resp.status = falcon.HTTP_200
+                return
             else:
                 resp.body = json.dumps({
                     "code" : 401,
@@ -87,7 +93,6 @@ class ResetPassword():
 class NewPassword():
     @classmethod
     def on_post(self,req,resp):
-
         data = json.loads(req.stream.read())
 
         username = data['username']
@@ -108,7 +113,16 @@ class NewPassword():
             })
             resp.status = falcon.HTTP_200
 
-api = falcon.API()
+class HandleCORS(object):
+    def process_request(self, req, resp):
+        resp.set_header('Access-Control-Allow-Origin', '*')
+        resp.set_header('Access-Control-Allow-Methods', '*')
+        resp.set_header('Access-Control-Allow-Headers', '*')
+        resp.set_header('Access-Control-Max-Age', 1728000)  # 20 days
+        if req.method == 'OPTIONS':
+            raise HTTPStatus(falcon.HTTP_200, body='\n')
+
+api = falcon.API(middleware=[HandleCORS() ])
 api.add_route('/login', Login())
 api.add_route('/register', Register())
 api.add_route('/reset', ResetPassword())
