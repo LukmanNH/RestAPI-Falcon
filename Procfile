@@ -1,1 +1,1 @@
-web: gunicorn3 app:api:8000
+web: gunicorn3 app:api
