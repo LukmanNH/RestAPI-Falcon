@@ -124,10 +124,6 @@ class HandleCORS(object):
         if req.method == 'OPTIONS':
             raise HTTPStatus(falcon.HTTP_200, body='\n')
 
-class Try():
-    def on_post (self , req, resp):
-        pyjwt.encode({'lukman' : 'hehee'} , 'yuhu')
-
 api = falcon.API(middleware=[HandleCORS() ])
 api.add_route('/login', Login())
 api.add_route('/register', Register())
