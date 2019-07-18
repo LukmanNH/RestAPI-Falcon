@@ -3,6 +3,7 @@ import json
 import falcon
 from falcon.http_status import HTTPStatus
 from falcon_cors import CORS
+import jwt
 
 client = pymongo.MongoClient("mongodb+srv://luckman004:hackerisart1@cluster0-oacif.mongodb.net/login?retryWrites=true&w=majority")
 db = client.login
@@ -90,6 +91,7 @@ class ResetPassword():
             })
             resp.status = falcon.HTTP_404
 
+
 class NewPassword():
     @classmethod
     def on_post(self,req,resp):
@@ -122,8 +124,13 @@ class HandleCORS(object):
         if req.method == 'OPTIONS':
             raise HTTPStatus(falcon.HTTP_200, body='\n')
 
+class Try():
+    def on_post (self , req, resp):
+        pyjwt.encode({'lukman' : 'hehee'} , 'yuhu')
+
 api = falcon.API(middleware=[HandleCORS() ])
 api.add_route('/login', Login())
 api.add_route('/register', Register())
 api.add_route('/reset', ResetPassword())
 api.add_route('/new_pass' , NewPassword())
+api.add_route('/try' , Try())
