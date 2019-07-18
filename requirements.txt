@@ -9,7 +9,7 @@ enum34==1.1.6
 falcon==2.0.0
 falcon-auth==1.1.0
 falcon-cors==1.1.7
-futures==3.2.0
+# futures==3.2.0
 gunicorn==19.9.0
 gyp==0.1
 idna==2.8
