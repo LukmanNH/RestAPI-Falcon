@@ -1,1 +1,1 @@
-web : gunicorn deploy:api
+web: gunicorn hello:app --preload
