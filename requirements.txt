@@ -11,7 +11,7 @@ falcon-auth==1.1.0
 falcon-cors==1.1.7
 # futures==3.2.0
 gunicorn==19.9.0
-gyp==0.1
+# gyp==0.1
 idna==2.8
 ipaddress==1.0.22
 isort==4.3.21
