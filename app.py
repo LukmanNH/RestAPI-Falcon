@@ -5,7 +5,7 @@ from falcon.http_status import HTTPStatus
 from falcon_cors import CORS
 import jwt
 
-client = pymongo.MongoClient("mongodb+srv://luckman004:hackerisart1@cluster0-oacif.mongodb.net/login?retryWrites=true&w=majority")
+client = pymongo.MongoClient("mongodb+srv://<username>:<password>@cluster0-oacif.mongodb.net/login?retryWrites=true&w=majority")
 db = client.login
 
 cors = CORS(allow_origins_list=['http://localhost:3000/'])
